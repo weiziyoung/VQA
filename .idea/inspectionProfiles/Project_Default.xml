@@ -1,0 +1,21 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="torch.cat" />
+          <option value="torch.rand" />
+          <option value="torch.min" />
+          <option value="torch.max" />
+          <option value="torch.ones" />
+          <option value="int.clamp" />
+          <option value="tuple.add_patch" />
+          <option value="tuple.axes" />
+          <option value="tuple.set_title" />
+          <option value="tuple.set_ylabel" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
