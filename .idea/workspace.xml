@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2ec4b2b2-036f-4504-ba7f-02782e1a46d8" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/vqa-counting/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/vqa-counting/toy/data.py" beforeDir="false" afterPath="$PROJECT_DIR$/vqa-counting/toy/data.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vqa-counting/toy/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/vqa-counting/toy/model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vqa-counting/toy/plot-acc.py" beforeDir="false" afterPath="$PROJECT_DIR$/vqa-counting/toy/plot-acc.py" afterDir="false" />
@@ -31,20 +32,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="train.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/reproduction/train.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" selection-start-line="5" selection-end-line="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="train.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/vqa-counting/toy/train.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-73">
-              <caret line="88" column="16" lean-forward="true" selection-start-line="88" selection-start-column="16" selection-end-line="88" selection-end-column="16" />
+            <state relative-caret-position="570">
+              <caret line="120" lean-forward="true" selection-start-line="120" selection-end-line="120" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -164,7 +156,7 @@
     </findStrings>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/vqa-counting" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -213,16 +205,6 @@
             <path>
               <item name="vqa" type="b2602c69:ProjectViewProjectNode" />
               <item name="vqa" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="vqa" type="b2602c69:ProjectViewProjectNode" />
-              <item name="vqa" type="462c0819:PsiDirectoryNode" />
-              <item name="reproduction" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="vqa" type="b2602c69:ProjectViewProjectNode" />
-              <item name="vqa" type="462c0819:PsiDirectoryNode" />
-              <item name="vqa-counting" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -470,16 +452,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/vqa-counting/toy/new.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="23" lean-forward="true" selection-start-column="23" selection-end-column="23" />
-          <folding>
-            <element signature="e#120#151#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vqa-counting/toy/counting.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="405">
@@ -874,10 +846,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/vqa-counting/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/vqa-counting/toy/train.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-73">
-          <caret line="88" column="16" lean-forward="true" selection-start-line="88" selection-start-column="16" selection-end-line="88" selection-end-column="16" />
+        <state relative-caret-position="570">
+          <caret line="120" lean-forward="true" selection-start-line="120" selection-end-line="120" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
