@@ -89,32 +89,31 @@ params = {
 }[configuration]
 
 param_ranges = {
-        'coord': None,
-        'noise': torch.linspace(0, 1, resolution)
-        #     'coord': torch.linspace(0.2, 1, resolution)
+       #  'coord': None,
+        'noise': [0]*resolution,
+         'coord': torch.linspace(0.2, 1, resolution)
         #     'noise': torch.linspace(0, 1, resolution),
 }
 
 if __name__ == "__main__":
-    param_range = torch.linspace(0, 1, resolution)
-    logs = []
-    for noise in param_range:
-        log = main(10, coord=None, noise=noise)
-        log['noise'] = noise
-        logs.append(log)
+    # param_range = torch.linspace(0, 1, resolution)
+    # logs = []
+    # for noise in param_range:
+    #     log = main(10, coord=None, noise=noise)
+    #     log['noise'] = noise
+    #     logs.append(log)
+    #
+    # file_name = 'real_situation.pth'
+    # torch.save(logs, file_name)
 
-    file_name = 'real_situation.pth'
-    torch.save(logs, file_name)
+    for name, ran in tqdm(param_ranges.items(), ncols=0, desc='all', position=0):
+        logs = []
+        for x in tqdm(ran, ncols=0, desc=name, position=1):
+            p = dict(params)
+            p['coord'] = 0.2
+            log = main(**p)
 
-
-# for name, ran in tqdm(param_ranges.items(), ncols=0, desc='all', position=0):
-#     logs = []
-#     for x in tqdm(ran, ncols=0, desc=name, position=1):
-#         p = dict(params)
-#         p[name] = x
-#         log = main(**p)
-#
-#         log['config'] = p
-#         logs.append(log)
-#     filename = '{}-{}.pth'.format(name, configuration)
-#     torch.save(logs, filename)
+            log['config'] = p
+            logs.append(log)
+        filename = '{}-{}.pth'.format(name, configuration)
+        torch.save(logs, filename)

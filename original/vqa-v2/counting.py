@@ -1,4 +1,5 @@
 import torch
+import visualization
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.autograd import Variable
@@ -45,7 +46,7 @@ class Counter(nn.Module):
 
         # 利用公式3，去除intra-object
         # object intra-object deduplication
-        score = self.f[0](relevancy) * self.f[1](distance)
+        A = self.f[0](relevancy) * self.f[1](distance)
 
         # inter-object deduplication
         # dedup_score和score相同，但是使用了不同的激活函数，
@@ -53,7 +54,11 @@ class Counter(nn.Module):
         # 算出公式5中的分母，所有相似度的总和
         dedup_per_entry, dedup_per_row = self.deduplicate(dedup_score, attention)
         # 公式5，算出每个proposal的分数
-        score = score / dedup_per_entry
+        score = A / dedup_per_entry
+
+        # visualisation usage
+        s = 1/dedup_per_row
+        C = A * self.outer_product(s) + torch.diag(s * self.f[0](attention * attention))
 
         # aggregate the score
         # can skip putting this on the diagonal since we're just summing over it anyway

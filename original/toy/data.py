@@ -13,6 +13,7 @@ class ToyTask(data.Dataset):
         self.max_objects = max_objects
         self.max_proposals = self.max_objects
         if coord is not None:
+            assert coord != 0
             self.max_coord = max(coord, 1e-6)
         else:
             self.max_coord = 0.05 + torch.rand(max_objects) * 0.3

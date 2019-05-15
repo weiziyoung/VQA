@@ -17,8 +17,15 @@ def visualize_graph(adjacent_matrix):
     :param adjacent_matrix: A = a·a.T, a is attention weight
     :return: None
     """
+    for i in range(adjacent_matrix.shape[0]):
+        for j in range(adjacent_matrix.shape[1]):
+            if adjacent_matrix[i][j] >= 1:
+                adjacent_matrix[i][j] = 1
+            else:
+                adjacent_matrix[i][j] = 0
+
     size = len(adjacent_matrix)
-    g = Digraph('Visualize_graph', filename = 'visualize_graph.gv', engine = 'circo')
+    g = Digraph('Visualize_graph', filename='visualize_graph.gv', engine = 'circo')
 
     # create the nodes
     for i in range(size):
@@ -28,15 +35,18 @@ def visualize_graph(adjacent_matrix):
         else:
             g.node('%d' %i, shape = 'circle', style = 'filled', fillcolor = 'white', fontcolor = 'black')
 
+
     #create the edges
     for i in range(size):
         content1 = adjacent_matrix[0][i]
-        g.edge('%d' %i, '%d' %i)
-        if (content1 == 1):
-            for j in range(size):
-                content2 = adjacent_matrix[0][j]
-                if ((content1 == content2) & (j > i)):
-                    g.edge('%d' %i, '%d' %j, dir = 'both')
+        content3 = adjacent_matrix[i][i]
+        if (content3 == 1):
+            g.edge('%d' %i, '%d' %i)
+
+        for j in range(size):
+            content2 = adjacent_matrix[i][j]
+            if ((content2 == 1) and (j > i) ):
+                g.edge('%d' %i, '%d' %j, dir = 'both')
     g.view()
 
 
@@ -52,6 +62,7 @@ def visualize_boxes(boxes_matrix, true_index):
         width = coordinate[2] - coordinate[0]
         height = coordinate[3] - coordinate[1]
         left_upper = (coordinate[0], coordinate[1])
+        plt.text(coordinate[0]+width/2, coordinate[1]+height/2, str(index))
         if index in range(true_index):
             rect = patches.Rectangle(left_upper, width=width, height=height, linewidth=1, fill=True, alpha=0.7, color='r')
         else:
@@ -105,4 +116,8 @@ def visualize_dataset():
 
 
 if __name__ == "__main__":
-    visualize_dataset()
+    a = np.array([[0,1,1,1],
+                 [1,0,1,1],
+                 [1,1,0,0],
+                 [1,1,0,0]])
+    visualize_graph(a)
