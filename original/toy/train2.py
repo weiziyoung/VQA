@@ -40,9 +40,9 @@ def run(nets, loader, iterations, train):
         if i >= iterations:
             break
 
-        a = Variable(a, requires_grad=False)
-        b = Variable(b.transpose(1, 2).contiguous(), requires_grad=False)
-        c = Variable(c, requires_grad=False)
+        a = Variable(a.cuda(async=True), requires_grad=False)
+        b = Variable(b.cuda(async=True).transpose(1, 2).contiguous(), requires_grad=False)
+        c = Variable(c.cuda(async=True), requires_grad=False)
 
         pred_cs = [net(a, b) for net in nets]
         losses = [loss_function(pred_c, c) for pred_c in pred_cs]
@@ -57,14 +57,14 @@ def run(nets, loader, iterations, train):
             data.append(acc)
     data = list(zip(*data))
     if not train:
-         data = [np.mean(d) for d in data]
+        data = [np.mean([each.item() for each in d]) for d in data]
     return data
 
 
 def main(objects, **kwargs):
     nets = [
-        model.Net(objects),
-        model.Baseline(objects),
+        model.Net(objects).cuda(),
+        model.Baseline(objects).cuda(),
     ]
     loader = get_loader(objects, **kwargs)
     plins = run(nets, loader, 1000, train=True)
@@ -73,7 +73,7 @@ def main(objects, **kwargs):
 
 
 resolution = 100 + 1
-configuration = 'easy'
+configuration = sys.argv[1]
 
 params = {
     'easy': {
@@ -87,32 +87,18 @@ params = {
         'noise': 0.5,
     },
 }[configuration]
-
 param_ranges = {
-       #  'coord': None,
-        'noise': [0]*resolution,
-         'coord': torch.linspace(0.2, 1, resolution)
-        #     'noise': torch.linspace(0, 1, resolution),
+                'coord': torch.linspace(0, 1, resolution),
+                'noise': torch.linspace(0, 1, resolution)
 }
 
 if __name__ == "__main__":
-    # param_range = torch.linspace(0, 1, resolution)
-    # logs = []
-    # for noise in param_range:
-    #     log = main(10, coord=None, noise=noise)
-    #     log['noise'] = noise
-    #     logs.append(log)
-    #
-    # file_name = 'real_situation.pth'
-    # torch.save(logs, file_name)
-
     for name, ran in tqdm(param_ranges.items(), ncols=0, desc='all', position=0):
         logs = []
         for x in tqdm(ran, ncols=0, desc=name, position=1):
             p = dict(params)
-            p['coord'] = 0.2
+            p[name] = x
             log = main(**p)
-
             log['config'] = p
             logs.append(log)
         filename = '{}-{}.pth'.format(name, configuration)
