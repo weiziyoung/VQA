@@ -206,6 +206,11 @@
               <item name="vqa" type="b2602c69:ProjectViewProjectNode" />
               <item name="vqa" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="vqa" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vqa" type="462c0819:PsiDirectoryNode" />
+              <item name="vqa-counting" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -377,9 +382,9 @@
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Python Console" order="7" weight="0.38060606" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32969698" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.34060606" />
+      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.34060606" />
       <window_info anchor="right" id="Remote Host" order="3" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25178826" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25178826" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="SciView" order="3" weight="0.46065807" />
