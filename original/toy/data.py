@@ -21,12 +21,13 @@ class ToyTask(data.Dataset):
 
     def __getitem__(self, item):
         # generate random object positions
-        if not isinstance(self.max_coord, torch.Tensor):
-            objects = torch.rand(self.max_proposals, 2) * (1 - self.max_coord)
-            boxes = torch.cat([objects, objects + self.max_coord], dim=1)
-        else:
-            objects = torch.rand(self.max_proposals, 2) * (1 - max(self.max_coord))
-            boxes = torch.cat([objects, objects + self.max_coord.unsqueeze(0).t()], dim=1)
+        # if not isinstance(self.max_coord, torch.Tensor):
+        objects = torch.rand(self.max_proposals, 2) * (1 - self.max_coord)
+        boxes = torch.cat([objects, objects + self.max_coord], dim=1)
+        # else:
+        #     print(self.max_coord)
+        #     objects = torch.rand(self.max_proposals, 2) * (1 - max(self.max_coord))
+        #     boxes = torch.cat([objects, objects + self.max_coord.unsqueeze(0).t()], dim=1)
         # generate object boxes, to make sure that all objects are covered
         # determine selected objects
         count = random.randint(0, self.max_objects)

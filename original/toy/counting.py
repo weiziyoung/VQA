@@ -14,11 +14,16 @@ class Counter(nn.Module):
     [1]: Yan Zhang, Jonathon Hare, Adam Prügel-Bennett: Learning to Count Objects in Natural Images for Visual Question Answering.
     https://openreview.net/forum?id=B12Js_yRb
     """
-    def __init__(self, objects, already_sigmoided=False):
+    def __init__(self, objects, already_sigmoided=False, confidence=None):
         super().__init__()
         self.objects = objects
+        if confidence:
+            self.confidence = confidence
+        else:
+            self.confidence = 0.5
         self.already_sigmoided = already_sigmoided
-        self.f = nn.ModuleList([PiecewiseLin(16) for _ in range(32)])
+        self.f = nn.ModuleList([PiecewiseLin(16) for _ in range(16)])
+        self.index = 0
 
     def forward(self, boxes, attention):
         """
@@ -30,10 +35,13 @@ class Counter(nn.Module):
         boxes 的维度为(batch size, 4, boxes_number)
         attention的维度为(batch size, boxes_number)， 越接近1越是true_box。
         """
-
+        self.index += 1
         # only care about the highest scoring object proposals
         # the ones with low score will have a low impact on the count anyway
         boxes, attention = self.filter_most_important(self.objects, boxes, attention)
+        if self.index == 500:
+            print('stop')
+
         # normalise the attention weights to be in [0, 1]
         if not self.already_sigmoided:
             attention = F.sigmoid(attention)
@@ -66,8 +74,8 @@ class Counter(nn.Module):
         one_hot = self.to_one_hot(score)
 
         # 输出置信度confidence,公式9+公式10
-        att_conf = (self.f[5](attention) - 0.5).abs()
-        dist_conf = (self.f[6](distance) - 0.5).abs()
+        att_conf = (self.f[5](attention) - self.confidence).abs()
+        dist_conf = (self.f[6](distance) - self.confidence).abs()
         # 公式11，两者置信度取平均后相加
         conf = self.f[7](att_conf.mean(dim=1, keepdim=True) + dist_conf.mean(dim=2).mean(dim=1, keepdim=True))
         return one_hot * conf
@@ -159,7 +167,7 @@ class Counter(nn.Module):
         area = inter[:, 0, :, :] * inter[:, 1, :, :]
         return area
 
- 
+
 class PiecewiseLin(nn.Module):
     """
     学习线性分段函数的参数，用于去除intra-object edges,是论文中公式12的实现

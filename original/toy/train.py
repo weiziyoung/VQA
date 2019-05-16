@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+# @Time    : 2019/5/16 11:27 AM
+# @Author  : weiziyang
+# @FileName: train.py
+# @Software: PyCharm
 import sys
 
 import numpy as np
@@ -35,17 +40,19 @@ def run(nets, loader, iterations, train):
 
     loss_function = nn.CrossEntropyLoss()
     data = []
+    losses_list = []
     tq = tqdm(loader, total=iterations, ncols=0, position=2, desc='train' if train else 'val')
     for i, (a, b, c) in enumerate(tq):
         if i >= iterations:
             break
 
-        a = Variable(a.cuda(async=True), requires_grad=False)
-        b = Variable(b.cuda(async=True).transpose(1, 2).contiguous(), requires_grad=False)
-        c = Variable(c.cuda(async=True), requires_grad=False)
+        a = Variable(a, requires_grad=False)
+        b = Variable(b.transpose(1, 2).contiguous(), requires_grad=False)
+        c = Variable(c, requires_grad=False)
 
         pred_cs = [net(a, b) for net in nets]
         losses = [loss_function(pred_c, c) for pred_c in pred_cs]
+        losses_list.append(losses)
 
         if train:
             [optimizer.zero_grad() for optimizer in optimizers]
@@ -58,13 +65,15 @@ def run(nets, loader, iterations, train):
     data = list(zip(*data))
     if not train:
         data = [np.mean([each.item() for each in d]) for d in data]
+    else:
+        torch.save(losses_list, 'loss.pth')
     return data
 
 
 def main(objects, **kwargs):
     nets = [
-        model.Net(objects).cuda(),
-        model.Baseline(objects).cuda(),
+        model.Net(objects),
+        model.Baseline(objects),
     ]
     loader = get_loader(objects, **kwargs)
     plins = run(nets, loader, 1000, train=True)
@@ -78,7 +87,7 @@ configuration = 'easy'
 params = {
     'easy': {
         'objects': 10,
-        'coord': 0.0,
+        'coord': 0.2,
         'noise': 0.0,
     },
     'hard': {
@@ -87,36 +96,23 @@ params = {
         'noise': 0.5,
     },
 }[configuration]
+
 param_ranges = {
-                'coord': torch.linspace(0, 1, resolution),
-                'noise': torch.linspace(0, 1, resolution)
+        'coord': torch.linspace(0.2, 1, resolution),
+        'noise': torch.linspace(0, 1, resolution)
 }
 
 if __name__ == "__main__":
-    # change object num to 30
     params = {
-        'objects': 30,
+        'objects': 10,
         'coord': 0.2,
         'noise': 0
     }
     logs = []
-    param_ranges = torch.linspace(0, 1, resolution)
+    param_ranges = torch.linspace(0, 1, 100)
     for noise in tqdm(param_ranges):
         params['noise'] = noise
         log = main(**params)
         log['config'] = params
         logs.append(log)
-    torch.save(logs, 'object_30.pth')
-
-
-
-    # for name, ran in tqdm(param_ranges.items(), ncols=0, desc='all', position=0):
-    #     logs = []
-    #     for x in tqdm(ran, ncols=0, desc=name, position=1):
-    #         p = dict(params)
-    #         p[name] = x
-    #         log = main(**p)
-    #         log['config'] = p
-    #         logs.append(log)
-    #     filename = '{}-{}.pth'.format(name, configuration)
-    #     torch.save(logs, filename)
+    torch.save(logs, 'object_10.pth')
