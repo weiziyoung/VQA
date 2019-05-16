@@ -27,7 +27,7 @@ class Counter(nn.Module):
 
     def forward(self, boxes, attention):
         """
-         Forward propagation of attention weights and bounding boxes to produce count features.
+         Forward propagation of attention weights and bounding boxes to produce count features .
         `boxes` has to be a tensor of shape (n, 4, m) with the 4 channels containing the x and y coordinates of the top left corner and the x and y coordinates of the bottom right corner in this order.
         `attention` has to be a tensor of shape (n, m). Each value should be in [0, 1] if already_sigmoided is set to True, but there are no restrictions if already_sigmoided is set to False. This value should be close to 1 if the corresponding boundign box is relevant and close to 0 if it is not.
         n is the batch size, m is the number of bounding boxes per image.

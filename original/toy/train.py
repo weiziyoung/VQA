@@ -72,8 +72,8 @@ def run(nets, loader, iterations, train):
 
 def main(objects, **kwargs):
     nets = [
-        model.Net(objects),
-        model.Baseline(objects),
+        model.Net(objects, confidence=0.1),
+        model.Baseline(objects, confidence=0.1),
     ]
     loader = get_loader(objects, **kwargs)
     plins = run(nets, loader, 1000, train=True)

@@ -63,8 +63,8 @@ def run(nets, loader, iterations, train):
 
 def main(objects, **kwargs):
     nets = [
-        model.Net(objects).cuda(),
-        model.Baseline(objects).cuda(),
+        model.Net(objects, confidence=kwargs.get('confidence')).cuda(),
+        model.Baseline(objects, confidence=kwargs.get('confidence')).cuda(),
     ]
     loader = get_loader(objects, **kwargs)
     plins = run(nets, loader, 1000, train=True)
@@ -95,9 +95,10 @@ param_ranges = {
 if __name__ == "__main__":
     # change object num to 30
     params = {
-        'objects': 30,
+        'objects': 10,
         'coord': 0.2,
-        'noise': 0
+        'noise': 0,
+        'confidence': 0.1
     }
     logs = []
     param_ranges = torch.linspace(0, 1, resolution)
@@ -106,7 +107,7 @@ if __name__ == "__main__":
         log = main(**params)
         log['config'] = params
         logs.append(log)
-    torch.save(logs, 'object_30.pth')
+    torch.save(logs, 'confidence01.pth')
 
 
 

@@ -8,10 +8,10 @@ import counting
 
 
 class Net(nn.Module):
-    def __init__(self, cf):
+    def __init__(self, cf, confidence=None):
         super(Net, self).__init__()
         self.cf = cf
-        self.counter = counting.Counter(cf, already_sigmoided=True)
+        self.counter = counting.Counter(cf, already_sigmoided=True, confidence=confidence)
         self.classifier = nn.Linear(cf + 1, cf + 1)
         init.eye_(self.classifier.weight)
 
@@ -21,11 +21,11 @@ class Net(nn.Module):
 
 
 class Baseline(nn.Module):
-    def __init__(self, cf):
+    def __init__(self, cf, confidence=None):
         super(Baseline, self).__init__()
         self.cf = cf
         self.classifier = nn.Linear(cf + 1, cf + 1)
-        self.dummy = counting.Counter(cf, already_sigmoided=True)
+        self.dummy = counting.Counter(cf, already_sigmoided=True, confidence=confidence)
         init.eye_(self.classifier.weight)
 
     def forward(self, a, b):

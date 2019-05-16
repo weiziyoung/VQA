@@ -28,6 +28,24 @@ def real_situation():
     plt.show()
 
 
+def loss_figure():
+    data = torch.load('loss.pth')
+    count_loss_list = []
+    base_loss_list = []
+    for each in data:
+        count_loss, base_loss = [_.data for _ in each]
+        count_loss_list.append(float(count_loss))
+        base_loss_list.append(float(base_loss))
+    x = torch.linspace(0, 1000, 1000)
+    plt.plot([float(each) for each in x], count_loss_list, label='count')
+    plt.plot([float(each) for each in x], base_loss_list, label='base_line')
+    plt.xlabel('Iteration(n)')
+    plt.ylabel('Loss')
+    plt.legend()
+    plt.title('$Loss\ curve(noise=0, object\_length=0.2, object=10)$')
+    plt.show()
+
+
 
 if __name__ == "__main__":
-    real_situation()
+    loss_figure()
